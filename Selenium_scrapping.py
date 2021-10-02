@@ -127,7 +127,7 @@ def gethash(selecao, text):
 
 def gethash_and_enconding(selecao, text):
   Browser = webdriver.Chrome(options=Chrome_options)
-  test_list = ['sha512/244','sha512/256', 'base32', 'base64', 'dbase32', 'dbase64']
+  test_list = ['sha512/244','sha512/256', 'base32', 'base64', 'dbase32', 'dbase64', '3sha224', '3sha256', '3sha384', '3sha512']
   if selecao.lower() in test_list:
     print('inicio decode encode hash getter')
     Browser.get('https://emn178.github.io/online-tools/index.html')
@@ -216,4 +216,59 @@ def gethash_and_enconding(selecao, text):
       print(hashed_encoded_text)
       Browser.close()
       return hashed_encoded_text
-    
+
+    if selecao.lower() == '3sha224':
+      Browser.find_element_by_xpath('/html/body/div[2]/div/ul[1]/li[14]/a').click()
+      sleep(1)
+      input_text = Browser.find_element_by_xpath('//*[@id="input"]')
+      print(text)
+      input_text.send_keys(text)
+      print('aqui')
+      Browser.find_element_by_xpath('//*[@id="execute"]').click()
+      sleep(1)
+      hashed_encoded_text = Browser.find_element_by_xpath('//*[@id="output"]').get_attribute('value')
+      print(hashed_encoded_text)
+      Browser.close()
+      return hashed_encoded_text
+
+    if selecao.lower() == '3sha256':
+      Browser.find_element_by_xpath('/html/body/div[2]/div/ul[1]/li[15]/a').click()
+      WebDriverWait(Browser, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="execute"]')))
+      input_text = Browser.find_element_by_xpath('//*[@id="input"]')
+      print(text)
+      input_text.send_keys(text)
+      print('aqui')
+      Browser.find_element_by_xpath('//*[@id="execute"]').click()
+      sleep(1)
+      hashed_encoded_text = Browser.find_element_by_xpath('//*[@id="output"]').get_attribute('value')
+      print(hashed_encoded_text)
+      Browser.close()
+      return hashed_encoded_text
+
+    if selecao.lower() == '3sha384':
+      Browser.find_element_by_xpath('/html/body/div[2]/div/ul[1]/li[16]/a').click()
+      WebDriverWait(Browser, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="execute"]')))
+      input_text = Browser.find_element_by_xpath('//*[@id="input"]')
+      print(text)
+      input_text.send_keys(text)
+      print('aqui')
+      Browser.find_element_by_xpath('//*[@id="execute"]').click()
+      sleep(1)
+      hashed_encoded_text = Browser.find_element_by_xpath('//*[@id="output"]').get_attribute('value')
+      print(hashed_encoded_text)
+      Browser.close()
+      return hashed_encoded_text
+      
+    if selecao.lower() == '3sha512':
+      Browser.find_element_by_xpath('/html/body/div[2]/div/ul[1]/li[17]/a').click()
+      sleep(1)
+      input_text = Browser.find_element_by_xpath('//*[@id="input"]')
+      print(text)
+      input_text.send_keys(text)
+      print('aqui')
+      Browser.find_element_by_xpath('//*[@id="execute"]').click()
+      sleep(1)
+      hashed_encoded_text = Browser.find_element_by_xpath('//*[@id="output"]').get_attribute('value')
+      print(hashed_encoded_text)
+      Browser.close()
+      return (hashed_encoded_text)

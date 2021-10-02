@@ -32,7 +32,7 @@ def discord():
   @client.command(name='hash', aliases=['HASH', 'Hash'])
   async def hash(ctx, agr1select,*argstext):
     hash_list = ['md2','md4', 'md5', 'sha224', 'sha256', 'sha384', 'sha512']
-    test_list = ['sha512/244','sha512/256', 'base32', 'base64', 'dbase32', 'dbase64']
+    test_list = ['sha512/244','sha512/256', 'base32', 'base64', 'dbase32', 'dbase64', '3sha224', '3sha256', '3sha384', '3sha512']
     if agr1select.lower() in hash_list:
       from Selenium_scrapping import gethash
       text_string = ' '.join(argstext)
