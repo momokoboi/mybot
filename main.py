@@ -11,6 +11,7 @@ def discord():
   @client.event
   async def on_ready():
     print(f"We have logged in as {client.user}")
+    await client.change_presence(activity=discord.Game(name="!help - by KillerdeathBr"))
   #______________________________________________________
   
   @client.command(name='joke', aliases=['JOKE', 'Joke'])
@@ -23,7 +24,7 @@ def discord():
     time.sleep(2)
     await ctx.channel.purge(limit=2)
     if len(name3) > 3:
-      inicial = "**U get the Joke? :hear_no_evil: :**\n" + "```" + name3 + "```" 
+      inicial = "**U get it? :hear_no_evil: :**\n" + "```" + name3 + "```" 
     else:
       inicial = "```**ERROR PLEASE TRY AGAIN**```" 
     await ctx.channel.send(inicial)
@@ -57,13 +58,23 @@ def discord():
     else:
        await ctx.channel.send("**Try again, not supported hash. To see supported hash use _!supported_**")
 
-  @client.command(name='help', aliases=['HELP', 'Help'])
-  async def helping_table(ctx):
+  @client.group(name='help', aliases=['HELP', 'Help'], invoke_without_command=True)
+  async def help(ctx):
       embedVar = discord.Embed(title="                       __**Help Section**__", description="The available command list follows below:", color=0x00FFFF)
-      embedVar.add_field(name="Command  **!help**", value='Displays the Help Section :page_facing_up:' + "\n\u200b", inline=False)
-      embedVar.add_field(name="Command **!joke**", value="Displays a random joke for you :zany_face:" + "\n\u200b", inline=False)
-      embedVar.add_field(name="Command **!hash**", value= "Generates a Hash or Enconding for you :chains:\nuse _!hash_ <hashtype or enconding> <your-message>\nuse _!supported_ to see supported hash types and encondings", inline=False)
+      embedVar.add_field(name="Command  **!help**", value='Displays the Help Section :page_facing_up:\nyou can also use !help <command>' + "\u200b", inline=False)
+      embedVar.add_field(name="Command **!purge**", value='Deletes messages for you :x:\n_Use !purge amount-to-be-deleted_\n_You need to have permission to use this command._', inline=False)
+      embedVar.add_field(name="Command **!joke**", value='Displays a joke for you :zany_face:')
+      embedVar.add_field(name="Command **!hash**", value= "Generates a Hash or Enconding for you :chains:\nUse _!hash hash-type your-message_\nUse _!supported_ to see supported hash types and encondings", inline=False)
       await ctx.channel.send(embed=embedVar)
+  @help.command(name='joke', aliases=['Joke', 'JOKE'])
+  async def joke_help(ctx):
+    embedVar = discord.Embed(title="                       __**Jokes**__", description="Displays a joke for you :zany_face:\n_Use !joke to spawn a joke._", color=0x00FFFF)
+    await ctx.channel.send(embed=embedVar)
+  @help.command(name='hash', aliases=['Hash', 'HASH'])
+  async def hash_help(ctx):
+    embedVar = discord.Embed(title="                       __**Hash**__", description="Generates a hash or enconding for you :chains:\n_Use !hash hash-type your-message._\nTo se supported hashes use !supported", color=0x00FFFF)
+    await ctx.channel.send(embed=embedVar)
+
 
   @client.command(name='supported', aliases=['Supported', 'SUPPORTED'])
   async def supported_hash(ctx):
@@ -78,6 +89,22 @@ def discord():
   async def on_command_error(ctx, error):
     await ctx.channel.send("**Try again command invoked incorrectly. For help use _!help_**")
     print(error)
+
+  @client.command(name='purge', aliases=['Purge', 'PURGE'])
+  @commands.has_any_role('Moderators', 'Support_Team')
+  async def purge(ctx, arg1):
+    try:
+      print('test1')
+      amount = int(arg1)
+      def not_pinned(msg):
+        return not msg.pinned
+      purged = await ctx.channel.purge(limit=amount + 1, check=not_pinned)
+      await ctx.channel.send(f'{len(purged)-1} messages deleted by ***{ctx.author.name}***.')
+      time.sleep(2)
+      await ctx.channel.purge(limit=1)
+      print('test2')
+    except:
+      await ctx.channel.send("The amount of messages to be deleted needs to an integer")
 
   client.run(os.getenv('mama123'))
   
